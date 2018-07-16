@@ -20,7 +20,6 @@ class Test1(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        CONTRACT_NAME = sys.path[0] + "/../contracts/lottery2"
         testnet = node.reset()
         assert(not testnet.error)
 
@@ -42,30 +41,24 @@ class Test1(unittest.TestCase):
         assert(not account_parent.error)
 
         global account_deploy 
-        account_deploy = eosf.account(account_master, name="lottery.code")
+        account_deploy = eosf.account(account_master)
         wallet.import_key(account_deploy)
         assert(not account_deploy.error)
 
         global contract
         cprint(""" Create a reference to the new contract """, 'magenta')
-        contract = eosf.Contract(account_deploy, CONTRACT_NAME)
-
-        cprint(""" Build the contract abi """, 'magenta')
-        assert(not contract.build_abi().error)
-        
-        cprint(""" Build the contract wast """, 'magenta')
-        assert(not contract.build_wast().error)
+        contract = eosf.Contract(account_deploy, sys.path[0] + "/../")
 
         cprint(""" Deploy the contract """, 'magenta')
         assert(not contract.deploy().error)
-    
+
         cprint(""" Confirm `account_deploy` contains code """, 'magenta')
         assert(not account_deploy.code().error)
 
 
     def setUp(self):
         pass
-        
+
 
     def testGrade(self):
 
@@ -82,7 +75,6 @@ class Test1(unittest.TestCase):
             self.assertFalse(t.error)
             self.assertEqual(t.json["rows"][0]["grade_num"], 1)
             self.assertEqual(t.json["rows"][0]["openings"], 25)
-        #
         #
 
         #
@@ -137,7 +129,6 @@ class Test1(unittest.TestCase):
             self.assertEqual(t.json["rows"][0]["grade_num"], 2)
             self.assertEqual(t.json["rows"][0]["openings"], 30)
         #
-        #
 
         #
         # Description: Add Student as Parent
@@ -165,7 +156,7 @@ class Test1(unittest.TestCase):
                 "remstudent", "[" + str(account_admin) + ", 123456789]", account_admin)
             print(action)
             self.assertTrue(action.error)
-        # 
+        #
 
         #
         # Description: Add same student
@@ -191,7 +182,7 @@ class Test1(unittest.TestCase):
             t = contract.table("student", account_deploy)
             self.assertFalse(t.error)
             self.assertEqual(t.json["rows"], [])
-        #    
+        #
 
     def tearDown(self):
         pass

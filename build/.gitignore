@@ -1,0 +1,8 @@
+CMakeFiles
+Testing
+*.cmake
+*.txt
+*.tcl
+*.abi
+*.wast
+Makefile

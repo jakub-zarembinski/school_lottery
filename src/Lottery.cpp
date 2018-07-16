@@ -2,20 +2,22 @@
 #include <eosiolib/print.hpp>
 #include <string>
 
+#include "logger.hpp"
+
 namespace CipherZ {
     using namespace eosio;
     using std::string;
 
     class Lottery : public contract {
         using contract::contract;
-        
+
         public:
             Lottery(account_name self):contract(self) {}
 
             //@abi action
             void addstudent(const account_name account, uint64_t ssn, string firstname, string lastname, uint64_t grade) {
             require_auth(account);
-            
+
             // Grade logic
             gradeIndex grades(_self, _self);
             auto grade_iter = grades.find(grade);
@@ -25,7 +27,7 @@ namespace CipherZ {
             studentMultiIndex students(_self, _self);
             auto student_iter = students.find(ssn);
             eosio_assert(student_iter == students.end(), "student already exists");
-            
+
             // auto parent_index = students.template get_index<N(byparent)>();
             // auto parent_iter = parent_index.find(account);
             // eosio_assert(parent_iter == parent_index.end(), "A student has already been entered by this parent");
@@ -49,12 +51,16 @@ namespace CipherZ {
             void addgrade(const account_name account, uint64_t grade_num, uint64_t openings) {
                 require_auth(account);
                 gradeIndex grades(_self, _self);
+
+                logger_info("account: ", account);
+
                 auto iterator = grades.find(grade_num);
                 eosio_assert(iterator == grades.end(), "grade already exists");
                 grades.emplace(account, [&](auto& _grade) {
                     _grade.account_name = account;
                     _grade.openings = openings;
                     _grade.grade_num = grade_num;
+                    _grade.status = 0;
                 });
             }
 
@@ -63,6 +69,9 @@ namespace CipherZ {
                 require_auth(account);
                 gradeIndex grades(_self, _self);
                 auto iterator = grades.find(grade_num);
+
+                logger_info("grade_num: ", grade_num);
+
                 eosio_assert(iterator != grades.end(), "grade does not exist");
                 grades.modify( iterator, _self, [&]( auto& _grade) {
                     _grade.openings = openings;
@@ -196,9 +205,12 @@ namespace CipherZ {
                             student.result = result_index;
                         });
                         result_index++;
-                        } 
+                        }
                        student_iter++;
                     }
+                grades.modify(grade_iter, account, [&](auto& grade) {
+                    grade.status = 1;
+                });
                  grade_iter++;
                 }
             }
@@ -232,10 +244,11 @@ namespace CipherZ {
                 uint64_t grade_num;
                 uint64_t openings;
                 uint64_t applicants;
+                uint64_t status;
 
                 uint64_t primary_key() const { return grade_num; }
 
-                EOSLIB_SERIALIZE(grade, (account_name)(grade_num)(openings)(applicants))
+                EOSLIB_SERIALIZE(grade, (account_name)(grade_num)(openings)(applicants)(status))
             };
 
             //typedef multi_index<N(student), student> studentIndex;
