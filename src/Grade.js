@@ -1,18 +1,25 @@
 import React, { Component } from "react";
 
-import "./App.css";
+import "./app.css";
 import "./css/pure-min.css";
 
-export default class Headmaster extends Component {
+export default class Grade extends Component {
 
     constructor(props) {
         super(props)
-        this.state = {
-            grade: '',
-            openings: '',
-            applicants: '',
-            updateType: -1
-            }
+        if(props.grade) {
+            this.state = {
+                grade: props.grade.grade_num,
+                openings: props.grade.openings,
+                applicants: props.grade.applicants
+                }
+        } else {
+            this.state = {
+                grade: '',
+                openings: '',
+                applicants: ''
+                }
+        }
     }
 
     componentWillReceiveProps(newProps) {
@@ -53,21 +60,6 @@ export default class Headmaster extends Component {
             openingsValid: e.target.value !== '' });
     }
 
-     onDelete(grade) {
-        this.props.onDelete(grade)
-        this.setState({updateType: -1})
-    }
-    
-    onAddForm() {
-        this.setState({updateType: 0})
-        this.props.onSelectGrade(null) 
-    }
-
-    onUpdateForm() {
-        this.setState({updateType: 1})
-        this.props.onSelectGrade(this.gradeFromState()) 
-    }
-
     isValid() {
         if(this.state.grade === '' || this.state.openings === '') {
             return false
@@ -84,27 +76,9 @@ export default class Headmaster extends Component {
 
     onUpdate() {
         if(this.isValid()) {
-            this.props.onUpdate(this.gradeFromState())
+            this.props.onUpdate(this.props.grade, this.gradeFromState())
         }
         
-    }
-
-
-    renderGrade(grade){
-        return (
-        <tr key={grade.grade_num} onClick={()=> this.props.onSelectGrade(grade)}>
-            <td>{grade.grade_num}</td>
-            <td>{grade.openings}</td>
-            <td>
-                <button
-                        className="pure-button pure-button-small"
-                        onClick={this.onUpdateForm.bind(this)}>Update</button> 
-                &nbsp;&nbsp;
-                <button
-                        className="pure-button pure-button-small"
-                        onClick={()=>{this.onDelete(grade)}}>Delete</button> 
-            </td>
-        </tr>)   
     }
 
     renderGradeOption(grade) {
@@ -121,9 +95,6 @@ export default class Headmaster extends Component {
     }
 
     renderGradeForm() {
-        if(this.state.updateType === -1) {
-            return <div />
-        } else  {
 
             let gradeOptions = []
             const allGrades = [0,1,2,3,4,5,6,7,8,9,10,11,12]
@@ -132,11 +103,25 @@ export default class Headmaster extends Component {
             })
             gradeOptions.unshift(<option key={''}></option>)
 
-            let action = this.onSave
-            let title = 'Add Grade'
-            if(this.state.updateType === 1) {
-                action = this.onUpdate
+            let title
+            let button
+            console.log(this.props.grade)
+            if(this.props.grade && this.props.grade.status === 1) {
+                title = 'Grade'
+                button = <div/>
+            }
+            else if(this.props.updateType === 1) {
                 title = 'Update Grade'
+                button = <button
+                                disabled={!this.isValid()}
+                                className="pure-button pure-button-primary"
+                                onClick={this.onUpdate.bind(this)}>Update</button>
+            } else if(this.props.updateType === 0) {
+                title = 'Add Grade'
+                button = <button
+                                disabled={!this.isValid()}
+                                className="pure-button pure-button-primary"
+                                onClick={this.onSave.bind(this)}>Save</button>
             }
         return (
             <div>
@@ -148,7 +133,7 @@ export default class Headmaster extends Component {
                             <label htmlFor="name">Grade</label>
                                 <select id="state"
                                 value={this.state.grade}
-                                disabled={this.state.updateType === 1}
+                                disabled={this.props.updateType === 1}
                                 onChange={this.onChangeGrade.bind(this)}>
                                 {gradeOptions}
                         </select>   
@@ -158,6 +143,7 @@ export default class Headmaster extends Component {
                         <div className="pure-control-group">
                             <label htmlFor="name">Openings</label>
                             <input id="lastName" type="text" placeholder="Number of Openings"
+                                disabled={this.props.grade && this.props.grade.status === 1}
                                 value={this.state.openings}
                                 onChange={this.onChangeOpenings.bind(this)} 
                                 />
@@ -165,68 +151,25 @@ export default class Headmaster extends Component {
                         </div>
 
                         <div className="pure-controls">
-                            <button
-                                disabled={!this.isValid()}
-                                className="pure-button pure-button-primary"
-                                onClick={action.bind(this)}>Save</button>
-                                &nbsp;&nbsp;   
+                            {button}
+                            &nbsp;&nbsp;   
                         </div>
                     </fieldset>
                 </div>
             </div>
         )
     }
-    }
 
     render() {
-
-        let grades = []
-        let data = this.props.grades ? this.props.grades : []
-        data.forEach(grade => {
-            grades.push(this.renderGrade(grade))    
-        })
-
-        return (
-        <div>    
-        <h2>Administrator</h2>
-        <table className="pure-table pure-table-horizontal">
-            <thead>
-                <tr>
-                    <th>First</th>
-                    <th>Last</th>
-                </tr>
-            </thead>
-        
-            <tbody>
-                <tr>
-                    <td>{this.props.identity.personal.firstname}</td>
-                    <td>{this.props.identity.personal.lastname}</td>
-                </tr>
-            </tbody>
-        </table> 
-        <h2>Grades</h2>
-        <table className="pure-table pure-table-horizontal">
-            <thead>
-                <tr>
-                    <th>Grade Number</th>
-                    <th>Openings</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {grades}
-            </tbody>
-        </table> 
-        <br />
-        <button
-            className="pure-button pure-button-primary"
-            onClick={this.onAddForm.bind(this)}>Add Grade
-        </button>
-        <br />
-        <hr />
-        <br />
-        {this.renderGradeForm()}
-        </div>
-        )
+        if(this.props.updateType === -1) {
+            return <div/>
+        } else {
+            return (
+            <div>    
+            <br />
+            {this.renderGradeForm()}
+            </div>
+            )
+        }
     }
 }

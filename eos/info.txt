@@ -52,6 +52,14 @@ cleos create account eosio parent EOS4uycimfHm5RAojQwBvjPFUtCsgDKBPLoyReGjB661uT
 
 -- Tests --
 
+cleos push action lottery.code addschool '["admin","Barclay Downs"]' -p admin@active 
+
+cleos push action lottery.code remschool '["admin", 0]' -p admin@active 
+
+cleos push action lottery.code updateschool '["admin", 3, "Barclay Downs 2"]' -p admin@active 
+
+cleos get table lottery.code lottery.code school
+
 cleos push action lottery.code remgrade '["admin",1]' -p admin@active 
 // Error - Grade does not Exist
 

@@ -27,7 +27,6 @@
     "css-loader": "0.26.0",
     "detect-port": "1.0.1",
     "dotenv": "2.0.0",
-    "eosjs": "^14.1.0",
     "eslint": "3.8.1",
     "eslint-config-react-app": "^0.5.0",
     "eslint-loader": "1.6.0",
@@ -60,8 +59,13 @@
   },
   "dependencies": {
     "dotenv": "^2.0.0",
+    "eosjs": "^16.0.0",
+    "mime": "^1.4.1",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
