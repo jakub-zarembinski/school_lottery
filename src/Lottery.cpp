@@ -13,7 +13,7 @@ namespace CipherZ {
         
         public:
             Lottery(account_name self):contract(self) {}
-
+            
             //@abi action
             void addstudent(const account_name account, uint64_t gradefk, uint64_t ssn, string firstname, string lastname) {
             require_auth(account);
