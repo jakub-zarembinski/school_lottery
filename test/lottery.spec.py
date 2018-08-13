@@ -52,15 +52,16 @@ NEXT TEST ====================================================================
 
         account_deploy.push_action(
             "addschool",
-            {
-                "account": account_admin,
-                "name": "Eastover"
-            },
+            # {
+            #     "account": account_admin,
+            #     "name": "Eastover"
+            # },
+            [account_admin, "Eastover"],
             account_admin)
 
         _.SCENARIO("""
         Having a school, add Grade as Admin.
-        Expectation: Succeed and Data exist.
+        Expectation: Succeed and Data exists.
         """)
 
         account_deploy.push_action(
@@ -74,7 +75,6 @@ NEXT TEST ====================================================================
             account_admin)
 
         t = account_deploy.table("grade", account_deploy)
-        self.assertFalse(t.error)
         self.assertEqual(t.json["rows"][0]["grade_num"], 1)
         self.assertEqual(t.json["rows"][0]["openings"], 25)
 
@@ -87,10 +87,18 @@ NEXT TEST ====================================================================
             "remgrade", 
             {
                 "account": account_parent,
-                "key": "1"
+                "key": "0"
             },
             account_parent)
         self.assertTrue(account_deploy.action.error)
+
+        _.COMMENT("""
+        Also, the 'grade' table should not be altered:
+        """)
+
+        t = account_deploy.table("grade", account_deploy)
+        self.assertEqual(t.json["rows"][0]["grade_num"], 1)
+        self.assertEqual(t.json["rows"][0]["openings"], 25)        
 
         _.SCENARIO("""
         Add same Grade.
@@ -99,15 +107,24 @@ NEXT TEST ====================================================================
 
         account_deploy.push_action(
             "addgrade", 
-            {
-                "account": account_admin,
-                "schoolfk": "0",
-                "grade_num": "1",
-                "openings": "35"                
-            }, 
+            # {
+            #     "account": account_admin,
+            #     "schoolfk": "0",
+            #     "grade_num": "1",
+            #     "openings": "35"                
+            # }, 
+            [account_admin, "0", "1", "35"],
             account_admin)
         self.assertTrue(account_deploy.action.error)
-    
+
+        _.COMMENT("""
+        Also, the 'grade' table should not be altered:
+        """)
+
+        t = account_deploy.table("grade", account_deploy)
+        self.assertEqual(t.json["rows"][0]["grade_num"], 1)
+        self.assertEqual(t.json["rows"][0]["openings"], 25)
+     
         _.SCENARIO("""
         Remove Grade as Admin.
         Expectation: Succeed and record removed.
@@ -117,7 +134,7 @@ NEXT TEST ====================================================================
             "remgrade", 
             {
                 "account": account_admin,
-                "key": "1"
+                "key": "0"
             }, 
             account_admin)
 
