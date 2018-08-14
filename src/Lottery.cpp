@@ -4,6 +4,9 @@
 #include <eosiolib/transaction.hpp>
 #include <eosiolib/crypto.h>
 
+#define DEBUG
+#include "logger.hpp"
+
 namespace CipherZ {
     using namespace eosio;
     using std::string;
@@ -17,10 +20,11 @@ namespace CipherZ {
             //@abi action
             void addstudent(const account_name account, uint64_t gradefk, uint64_t ssn, string firstname, string lastname) {
             require_auth(account);
-            
+
             // Grade logic
             gradeMultiIndex grades(_self, _self);
             auto grade_iter = grades.find(gradefk);
+
             eosio_assert(grade_iter != grades.end(), "Grade must exist before adding a student");
 
             // Student insertion
@@ -80,6 +84,9 @@ namespace CipherZ {
             //@abi action
             void addschool(const account_name account, string name) {
                 require_auth(account);
+
+                logger_info("account: ", account); ///////////////////////////
+
                 schoolIndex schools(_self, _self);
                 schools.emplace(account, [&](auto& _school) {
                     _school.account_name = account;
@@ -92,6 +99,7 @@ namespace CipherZ {
             //@abi action
             void updateschool(const account_name account, uint64_t key, string name) {
                 require_auth(account);
+
                 schoolIndex schools(_self, _self);
                 auto iterator = schools.find(key);
                 eosio_assert(iterator != schools.end(), "school does not exist");
@@ -103,6 +111,7 @@ namespace CipherZ {
             //@abi action
             void remschool(const account_name account, const uint64_t key) {
                 require_auth(account);
+
                 schoolIndex schools(_self, _self);
                 auto iterator = schools.find(key);
                 eosio_assert(iterator != schools.end(), "school does not exist");
@@ -114,6 +123,7 @@ namespace CipherZ {
             //@abi action
             void updategrade(const account_name account, uint64_t key, uint64_t openings) {
                 require_auth(account);
+
                 gradeMultiIndex grades(_self, _self);
                 auto iterator = grades.find(key);
                 eosio_assert(iterator != grades.end(), "grade does not exist");
@@ -125,6 +135,7 @@ namespace CipherZ {
             //@abi action
             void updatestuden(const account_name account, uint64_t key, uint64_t ssn, string firstname, string lastname, uint64_t gradefk) {
                 require_auth(account);
+
                  // Student insertion
                 studentMultiIndex students(_self, _self);
                 auto student_iter = students.find(key);
@@ -160,6 +171,7 @@ namespace CipherZ {
             //@abi action
             void remgrade(const account_name account, const uint64_t key) {
                 require_auth(account);
+
                 gradeMultiIndex grades(_self, _self);
                 auto iterator = grades.find(key);
                 eosio_assert(iterator != grades.end(), "grade not found");

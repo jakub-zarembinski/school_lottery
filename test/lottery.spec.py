@@ -1,4 +1,3 @@
-# python3 ./tests/lottery.spec.py
 import sys
 import unittest
 import setup
@@ -11,9 +10,8 @@ from eosf_account import account_create, account_master_create
 from eosf_contract import Contract
 
 eosf.Logger.verbosity = [Verbosity.EOSF, Verbosity.OUT]
-eosf.set_throw_error(False)
 _ = eosf.Logger()
-
+eosf.use_keosd(False)
 
 class Test(unittest.TestCase):
 
@@ -30,7 +28,6 @@ NEXT TEST ====================================================================
         eosf.set_is_testing_errors(False)
         eosf.set_throw_error(True)
 
-        eosf.use_keosd(False)
         eosf.reset([eosf.Verbosity.TRACE]) 
         wallet = Wallet()
         account_master_create("account_master")
