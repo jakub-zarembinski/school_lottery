@@ -1,1 +1,0 @@
-../eos/build/programs/nodeos/nodeos -e -p eosio --plugin eosio::wallet_api_plugin --plugin eosio::chain_api_plugin --plugin eosio::history_api_plugin --contracts-console --max-irreversible-block-age -1 --access-control-allow-origin "*" --access-control-allow-headers "*" --access-control-allow-credentials true --verbose-http-errors --http-validate-host false
