@@ -1,5 +1,5 @@
 """
-# Developping and testing the [School Lottery](https://github.com/cipherzzz/school_lottery) with EOSFactory
+# Unittesting the [School Lottery](https://github.com/cipherzzz/school_lottery) with the EOSFactory
 
 ```md
 This file can be executed as a python script: 
