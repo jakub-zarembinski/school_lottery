@@ -1,9 +1,10 @@
 """
-# Unittesting the [School Lottery](https://github.com/cipherzzz/school_lottery) with the EOSFactory
+# Unittesting the [School Lottery](https://github.com/cipherzzz/school_lottery)
 
 ```md
 This file can be executed as a python script: 
 'python3 README_EOSFactory_test.md'.
+
 Note, the script relies on its file's position relative to the 'src` directory, 
 where is the code of the School Lottery. 
 ```

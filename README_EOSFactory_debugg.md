@@ -4,6 +4,7 @@
 ```md
 This file can be executed as a python script: 
 'python3 README_EOSFactory_debugg.md'.
+
 Note, the script relies on its file's position relative to the 'src` directory, 
 where is the code of the School Lottery. 
 ```
@@ -20,7 +21,7 @@ in the 'logger.hpp` header file.
 
 ### Include logger.hpp
 ```md
-Let us insert the header #include, and a 'logger_info` line into the source 
+Let us insert the header #include, and a 'logger_info' line into the source 
 code of the contract (src/Lottery.cpp):
 ```
 
