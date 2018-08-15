@@ -9,7 +9,8 @@ Note, the script relies on its file's position relative to the 'src` directory,
 where is the code of the School Lottery. 
 ```
 <pre>
-The BlockOne <a href="https://eosio-cpp.readme.io/docs/debugging">advertises</a> the proposed debugging method as 'Caveman Debugging':
+The EOSIO documentation advertises the proposed debugging method as 'Caveman 
+Debugging':
 
 ''The main method used to debug smart contract is Caveman Debugging, where we 
 utilize the printing functionality to inspect the value of a variable and check 
@@ -65,7 +66,6 @@ We hope, you see a yellow line starting 'INFO' in the printout.
 ```md
 """
 import sys
-import unittest
 import setup
 import eosf
 import time
@@ -78,7 +78,6 @@ from eosf_contract import Contract
 eosf.Logger.verbosity = [Verbosity.TRACE, Verbosity.OUT, Verbosity.DEBUG]
 eosf.use_keosd(False)
 
-eosf.restart()
 eosf.set_is_testing_errors(False)
 eosf.set_throw_error(True)
 
