@@ -1,14 +1,12 @@
 """
 # Unittesting the [School Lottery](https://github.com/cipherzzz/school_lottery)
 
-```md
 This file can be executed as a python script: 
 'python3 README_EOSFactory_test.md'.
 
 Note, the script relies on its file's position relative to the 'src` directory, 
 where is the code of the School Lottery. 
-```
-<pre>
+
 Here we explain methods of the Tokenika EOSFactory, applicable to the 
 development and testing of EOS smart contracts. As the working example, we 
 use the <a href="https://github.com/cipherzzz/school_lottery">School Lottery</a>, developed by CipherZ who kindly <a href="https://medium.com/coinmonks/your-first-eos-dapp-using-eosfactory-aa0394df95d9">reviewed</a> the EOSFactory 
@@ -18,11 +16,8 @@ Now we are close to the publication of the version 2.0 that is already <a href="
 (branch 'dev') in its development form.
 
 <a href="https://rawgit.com/tokenika/eosfactory/dev/docs/build/html/index.html">Here</a> you can find lot of information on this new EOSFactory.
-</pre> 
 
-```md
 In the current article, we explain a unittest.
-```
 
 ## Setup
 
@@ -42,19 +37,19 @@ from eosf_contract import Contract
 ```
 ### Test conditions
 
-```md
 Verbosity options:
 
-    * Verbosity.TRACE -- only headdings are printed, while with
-    * Verbosity.EOSF -- prints details;
-    * Verbosity.OUT -- prints the output from the blockchain;
-    * Verbosity.DEBUG -- prints debug info and console output from the 
-        blockchain.
+* `Verbosity.TRACE` -- only headdings are printed, while with
+* `Verbosity.EOSF` -- prints details;
+* `Verbosity.OUT` -- prints the output from the blockchain;
+* `Verbosity.DEBUG` -- prints debug info and console output from the 
+    blockchain.
 
 KEOSD options:
-    * False -- use the NODEOS Wallet Manager;
-    * True -- use the KEOSD Wallet Manager.
-```
+
+* False -- use the NODEOS Wallet Manager;
+* True -- use the KEOSD Wallet Manager.
+
 ```md
 """
 eosf.Logger.verbosity = [Verbosity.EOSF, Verbosity.OUT, Verbosity.DEBUG]
@@ -76,13 +71,13 @@ NEXT TEST ====================================================================
 ```
 ### Starting test setup
 
-```md
 Setup statements:
-    * restart() -- reset all the settings to the start conditions;
-    * set_is_testing_errors(...) -- if True, error messages are less alarming;
-    * set_throw_error(...) if True, exceptions are thrown rather than error 
-        messages are printed. For setting a test up, chose throwing.
-```
+
+* `restart()` -- reset all the settings to the start conditions;
+* `set_is_testing_errors(...)` -- if True, error messages are less alarming;
+* `set_throw_error(...)` if True, exceptions are thrown rather than error 
+    messages are printed. For setting a test up, chose throwing.
+
 ```md
         """
         eosf.restart()
@@ -92,20 +87,19 @@ Setup statements:
 ```
 ### Starting the local node wallet and actor accounts
 
-```md
-    * reset(...) -- clean start the local node from its genesis conditions;
-        other possibility is run(...), that is start the node being stopped 
-        before;
-    * wallet = Wallet() -- start a singleton object that wraps a physical 
-        wallet;
-    * account_create(<account object name>, <account creating object>) --
-        create the object named <account object name> that wraps a physical 
-        account of a random name; account objects are preserved between 
-        sessions, if the local node is not reset; account objects are 
-        automatically placed in the wallet.
-    * account_master_create(<account object name>) -- creates the object named 
-        <account object name> having the power of the account creator.
-```
+* `reset(...)` -- clean start the local node from its genesis conditions;
+    other possibility is run(...), that is start the node being stopped 
+    before;
+* `wallet = Wallet()` -- start a singleton object that wraps a physical 
+    wallet;
+* `account_create(<account object name>, <account creating object>)` --
+    create the object named <account object name> that wraps a physical 
+    account of a random name; account objects are preserved between 
+    sessions, if the local node is not reset; account objects are 
+    automatically placed in the wallet.
+* `account_master_create(<account object name>)` -- creates the object named 
+    <account object name> having the power of the account creator.
+
 ```md
         """
         eosf.reset([eosf.Verbosity.TRACE]) 
@@ -130,14 +124,13 @@ Setup statements:
 
 ### Automatic translation
 
-```md
 The EOSIO accounts are indexed by their names, therefore the names have to be 
 unique in the blockchain, and to have the specific format. Then it is not 
 possible to grasp any intuitive association between the account name and its 
 role specified in the Ricardian Contract. 
 
 For example, if there is in the Contract a notion of an account keeping a
-‘school fund 2018’, we can try the name ‘school.fund1’. It is not only far to
+‘school fund 2018’, we can try the name `school.fund1`. It is not only far to
 a satisfactory name, but it can be taken already.
 
 A natural solution to the problem is to have aliasses to the physical names.
@@ -149,7 +142,7 @@ For example, the data for a contract action can be stated as in the script code
 below. The names involved there are translated to the physical names before 
 being sent to the blockchain, and decoded beck when they return in an answer 
 from the blockchain.
-```
+
 ```md
         """
         account_lottery.push_action(
@@ -250,17 +243,14 @@ from the blockchain.
         eosf.stop()
 
 unittest.main()
-
-print("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
-
 """
 ```
 ## Unittest screen dumps
 
 ### Setup phase
-```md
+
 The setup is verbose. You can see a detailed record of what happens.
-```
+
 <img src="resources/images/test_setup.png" width="720px"/>
 
 ### Test phase

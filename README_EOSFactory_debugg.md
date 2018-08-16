@@ -1,14 +1,12 @@
 """
 # Debugging EOS smart contracts
 
-```md
 This file can be executed as a python script: 
 'python3 README_EOSFactory_debugg.md'.
 
 Note, the script relies on its file's position relative to the 'src` directory, 
 where is the code of the School Lottery. 
-```
-<pre>
+
 The EOSIO documentation advertises the proposed debugging method as 'Caveman 
 Debugging':
 
@@ -18,13 +16,11 @@ the flow of the contract.''
 
 We attempt to make it more refined, introducing a logging utility implemented 
 in the 'logger.hpp` header file.
-</pre>
 
 ### Include logger.hpp
-```md
+
 Let us insert the header #include, and a 'logger_info' line into the source 
 code of the contract (src/Lottery.cpp):
-```
 
 ```md
 #define DEBUG
@@ -59,9 +55,8 @@ namespace CipherZ {
 """
 ### Run a test script
 
-```md
 We hope, you see a yellow line starting 'INFO' in the printout.
-```
+
 """
 ```md
 """
