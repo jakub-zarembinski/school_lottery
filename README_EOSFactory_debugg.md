@@ -1,26 +1,19 @@
-"""
 # Debugging EOS smart contracts
 
-This file can be executed as a python script: 
-'python3 README_EOSFactory_debugg.md'.
+The EOSIO documentation advertises the proposed debugging method as `Caveman 
+Debugging`:
 
-Note, the script relies on its file's position relative to the 'src` directory, 
-where is the code of the School Lottery. 
-
-The EOSIO documentation advertises the proposed debugging method as 'Caveman 
-Debugging':
-
-''The main method used to debug smart contract is Caveman Debugging, where we 
-utilize the printing functionality to inspect the value of a variable and check 
-the flow of the contract.''
+```
+The main method used to debug smart contract is Caveman Debugging, where we utilize the printing functionality to inspect the value of a variable and check the flow of the contract.
+```
 
 We attempt to make it more refined, introducing a logging utility implemented 
-in the 'logger.hpp` header file.
+in the `logger.hpp` header file.
 
 ### Include logger.hpp
 
-Let us insert the header #include, and a 'logger_info' line into the source 
-code of the contract (src/Lottery.cpp):
+Let us insert the header `#include`, and a `logger_info` line into the source 
+code of the contract (`src/Lottery.cpp`):
 
 ```md
 #define DEBUG
@@ -52,14 +45,14 @@ namespace CipherZ {
 
 ...............................................................................
 ```
-"""
+
 ### Run a test script
 
-We hope, you see a yellow line starting 'INFO' in the printout.
+You should you see a line printed in yellow starting with the `INFO` tag.
 
-"""
+
 ```md
-"""
+
 import sys
 import setup
 import eosf
@@ -99,7 +92,6 @@ account_lottery.push_action(
     }, account_admin)
 
 eosf.stop()
-"""
+
 ```
 <img src="resources/images/debugging.png" width="720px"/>
-"""
