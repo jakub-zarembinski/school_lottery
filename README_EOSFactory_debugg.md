@@ -3,9 +3,9 @@
 The EOSIO documentation advertises the proposed debugging method as `Caveman 
 Debugging`:
 
-```
-The main method used to debug smart contract is Caveman Debugging, where we utilize the printing functionality to inspect the value of a variable and check the flow of the contract.
-```
+
+> The main method used to debug smart contract is Caveman Debugging, where we utilize the printing functionality to inspect the value of a variable and check the flow of the contract.
+
 
 We attempt to make it more refined, introducing a logging utility implemented 
 in the `logger.hpp` header file.
